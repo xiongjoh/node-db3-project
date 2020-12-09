@@ -11,7 +11,14 @@ module.exports = {
         //     *
         // from "schemes" s
         // where s.id = 1
-        return db('schemes').where({ id }).first();
+        return db('schemes').where({ id })
+        .then(res => {
+            if(!res[0]) {
+                return Promise.resolve(null)
+            } else {
+                return res[0]
+            }
+        })
     },
     findSteps(id){
         // select
