@@ -40,7 +40,19 @@ module.exports = {
         })
     },
     addStep(step, scheme_id){
-        return
+        // insert into steps(step_number, instructions, scheme_id)
+        // values (1, 'Drive', 6)
+        return db('steps')
+        .insert({step_number:step.step_number, 
+            instructions:step.instructions, 
+            scheme_id:scheme_id})
+        .then((res) => {
+            return db('steps as st')
+            .join('schemes as s', 'st.scheme_id', 's.id')
+            .select('st.step_number', 's.scheme_name', 'st.instructions')
+            .where('s.id', scheme_id)
+            .orderBy('st.step_number');
+        })
     },
     update(changes, id){
         // update schemes
