@@ -30,15 +30,32 @@ module.exports = {
         .orderBy('st.step_number');
     },
     add(scheme){
-        return
+        // insert into schemes (scheme_name) 
+        // values ("Order A Burger")
+        return db('schemes')
+        .insert(scheme)
+        .then(([id]) => {
+            console.log(id)
+            return db('schemes').where({ id }).first();
+        })
     },
     addStep(step, scheme_id){
         return
     },
     update(changes, id){
-        return
+        // update schemes
+        // set scheme_name = "tweete"
+        // where schemes.id = 11
+        return db('schemes')
+        .where({ id })
+        .update(changes)
+        .then((res) => {
+            return db('schemes').where('id', id).first()
+        })
     },
     remove(id){
-        return
+        // delete from schemes
+        // where schemes.id = 12
+        return db('schemes').where({id}).del()
     },
 }
